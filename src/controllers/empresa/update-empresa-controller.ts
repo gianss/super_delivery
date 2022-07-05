@@ -1,13 +1,14 @@
-import { UserService } from '../../../db/user-service'
-import { gerarSenha, encrypto } from '../../../utils/'
+import { EmpresaService } from '../../db/empresa-service'
+import { encrypto } from '../../utils'
 import validator from 'validator'
-import { ControllerResponse } from '../../../models/controller'
-const userService = new UserService()
+import { ControllerResponse } from '../../models/controller'
 
-export class UpdateUserController {
-   async updateUser (request: any): Promise<ControllerResponse> {
+const service = new EmpresaService()
+
+export class UpdateEmpresaController {
+   async updateEmpresa (request: any): Promise<ControllerResponse> {
       try {
-         const requiredFields = ['id_user']
+         const requiredFields = ['id_empresa']
          for (const field of requiredFields) {
             if (!request[field]) {
                return {
@@ -17,9 +18,6 @@ export class UpdateUserController {
                   }
                }
             }
-         }
-         if (request.senha) {
-            request.senha = await gerarSenha(request.senha)
          }
          if (request.email) {
             const isvalid = validator.isEmail(request.email)
@@ -32,35 +30,20 @@ export class UpdateUserController {
                }
             }
          }
-         if (request.cpf) {
-            request.cpf = encrypto(request.cpf)
+         if (request.cnpj) {
+            request.cnpj = encrypto(request.cnpj)
          }
-         await userService.updateUser(request)
+         await service.updateEmpresa(request)
+         const empresa = await service.getEmpresaID(request.id_empresa)
          return {
             statusCode: 200,
             resposta: {
-               user: request,
+               empresa,
                mensagem: 'Informações atualizadas com sucesso'
             }
          }
       } catch (error) {
          console.log(error)
-         if (error.errno === 1062) {
-            if (error.sqlMessage?.includes('users.username')) {
-               return {
-                  statusCode: 400,
-                  resposta: {
-                     mensagem: 'Username já está em uso'
-                  }
-               }
-             }
-            return {
-               statusCode: 400,
-               resposta: {
-                  mensagem: 'email já está em uso'
-               }
-            }
-         }
          if (error.errno === 1054) {
             return {
                statusCode: 400,

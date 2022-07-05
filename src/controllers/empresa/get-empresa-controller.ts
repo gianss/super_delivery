@@ -1,6 +1,6 @@
-import { EmpresaModel } from './../../../models/empresa'
-import { ControllerResponse } from '../../../models/controller'
-import { EmpresaService } from '../../../db/empresa-service'
+import { EmpresaModel } from './../../models/empresa'
+import { ControllerResponse } from '../../models/controller'
+import { EmpresaService } from '../../db/empresa-service'
 
 const service = new EmpresaService()
 

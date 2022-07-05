@@ -1,11 +1,10 @@
+import { ControllerResponse } from '../../models/controller'
+import { UserService } from '../../db/user-service'
 
-import { ControllerResponse } from '../../../models/controller'
-import { EmpresaService } from '../../../db/empresa-service'
+const userService = new UserService()
 
-const service = new EmpresaService()
-
-export class DeleteEmpresaController {
-   async deleteEmpresa (id: number): Promise<ControllerResponse> {
+export class DeleteUserController {
+   async deleteUser (id: number): Promise<ControllerResponse> {
       try {
          if (isNaN(id)) {
             return {
@@ -15,12 +14,12 @@ export class DeleteEmpresaController {
                }
             }
          }
-         const item = await service.getEmpresaID(id)
-         await service.deleteEmpresa(id)
+         const item = await userService.getUserID(id)
+         await userService.deleteUser(id)
          return {
             statusCode: 200,
             resposta: {
-               mensagem: 'Empresa deletada com sucesso',
+               mensagem: 'Usuário deletado com sucesso',
                item
             }
          }

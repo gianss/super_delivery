@@ -1,7 +1,7 @@
-import { UserService } from '../../../db/user-service'
-import { UserModel } from '../../../models/user'
-import { ControllerResponse } from '../../../models/controller'
-import { decodeToken } from '../../../utils/'
+import { UserService } from '../../db/user-service'
+import { UserModel } from '../../models/user'
+import { ControllerResponse } from '../../models/controller'
+import { decodeToken } from '../../utils/'
 
 const userService = new UserService()
 

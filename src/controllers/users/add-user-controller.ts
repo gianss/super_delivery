@@ -1,8 +1,8 @@
-import { UserService } from '../../../db/user-service'
-import { UserModel } from '../../../models/user'
+import { UserService } from '../../db/user-service'
+import { UserModel } from '../../models/user'
 import validator from 'validator'
-import { gerarSenha, encrypto } from '../../../utils/'
-import { ControllerResponse } from '../../../models/controller'
+import { gerarSenha, encrypto } from '../../utils/'
+import { ControllerResponse } from '../../models/controller'
 
 const userService = new UserService()
 

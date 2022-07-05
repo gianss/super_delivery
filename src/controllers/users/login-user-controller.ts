@@ -1,7 +1,7 @@
-import { UserModel } from './../../../models/user'
-import { UserService } from '../../../db/user-service'
-import { generateToken, comprarSenha } from '../../../utils/'
-import { ControllerResponse } from '../../../models/controller'
+import { UserModel } from './../../models/user'
+import { UserService } from '../../db/user-service'
+import { generateToken, comprarSenha } from '../../utils/'
+import { ControllerResponse } from '../../models/controller'
 
 const userService = new UserService()
 
