@@ -1,0 +1,500 @@
+{
+   "openapi": "3.0.0",
+   "info": {
+      "title": "Api POKT",
+      "description": "Api desenvolvida pelo grupo MindHouse",
+      "version": "1.0",
+      "contact": {
+         "email": "contato@mindhouse.com.br"
+      }
+   },
+   "servers": [
+      {
+         "url": "https://mindhouse.com.br:2777/v1/",
+         "description": "Api de test online"
+      },
+      {
+         "url": "http://127.0.0.1:2777/v1/",
+         "description": "Api de test local"
+      }
+   ],
+   "paths": {
+      "/app/home": {
+         "get": {
+            "summary": "informações da home",
+            "tags": ["app"],
+            "security": [{"ApiKeyAuth": []}],
+            "parameters": [
+               {
+                  "name": "cod_cidade",
+                  "in": "query",
+                  "description": "cod_cidade",
+                  "required": true,
+                  "schema":{}
+               }
+            ],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/localizacao/get-estados-ativos": {
+         "get": {
+            "summary": "Get estados",
+            "description": "Rota responsavel por retornar estados cadastrados",
+            "tags": ["app"],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/configuracoes/get-forma-pagamento-empresa/{id}": {
+         "get": {
+            "summary": "Get formas de pagamento ativas",
+            "description": "Rota responsavel por retornar formas de pagamento da empresa",
+            "tags": ["app"],
+            "parameters": [
+               {
+                  "name": "id",
+                  "in": "path",
+                  "description": "cod_empresa",
+                  "required": true,
+                  "schema":{}
+               }
+            ],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/empresas/get-empresas-ativas": {
+         "get": {
+            "summary": "Get estados",
+            "description": "Rota responsavel por retornar estados cadastrados",
+            "tags": ["app"],
+            "parameters": [
+               {
+                  "name": "cod_cidade",
+                  "in": "query",
+                  "description": "cod_cidade",
+                  "required": true,
+                  "schema":{}
+               },
+               {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "limit",
+                  "required": false,
+                  "schema":{}
+               },
+               {
+                  "name": "offset",
+                  "in": "query",
+                  "description": "offset",
+                  "required": false,
+                  "schema":{}
+               }
+            ],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/localizacao/get-cidades-ativas": {
+         "get": {
+            "summary": "Get cidades",
+            "description": "Rota responsavel por retornar cidades cadastradas referente ao estado",
+            "tags": ["app"],
+            "parameters": [
+               {
+                  "name": "cod_estado",
+                  "in": "query",
+                  "description": "cod_estado",
+                  "required": true,
+                  "schema":{}
+               }
+            ],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/users/login": {
+         "post": {
+            "summary": "login de usuário app cliente",
+            "description": "Rota responsavel por fazer login de usuário",
+            "tags": ["app"],
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "required": ["email", "senha"],
+                        "properties": {
+                           "email": {
+                              "type": "string"
+                           },
+                           "senha": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/users/login-empresa": {
+         "post": {
+            "summary": "login de usuário app empresa",
+            "description": "Rota responsavel por fazer login de usuário empresa",
+            "tags": ["app-empresa"],
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "required": ["email", "senha"],
+                        "properties": {
+                           "email": {
+                              "type": "string"
+                           },
+                           "senha": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/users/add-cliente": {
+         "post": {
+            "summary": "Cadastro de clientes",
+            "description": "Rota responsavel por cadastrar clientes",
+            "tags": ["app"],
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/ClienteAdd"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/transacoes/get-transacoes-token/{id}": {
+         "get": {
+            "summary": "Get transacoes pelo random token",
+            "description": "Rota responsavel por retornar transacoes da empresa",
+            "tags": ["app"],
+            "parameters": [
+               {
+                  "name": "id",
+                  "in": "path",
+                  "description": "random_token",
+                  "required": true,
+                  "schema":{}
+               }
+            ],
+            "security": [{"ApiKeyAuth": []}],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/transacoes/": {
+         "get": {
+            "summary": "Get transacoes",
+            "description": "Rota responsavel por retornar transacoes da empresa",
+            "tags": ["app-empresa", "app"],
+            "security": [{"ApiKeyAuth": []}],
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/transacoes/add": {
+         "post": {
+            "summary": "Cadastro de transações",
+            "description": "Rota responsavel por cadastrar transações",
+            "tags": ["app-empresa"],
+            "security": [{"ApiKeyAuth": []}],
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/TransactionAdd"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      },
+      "/transacoes/update": {
+         "put": {
+            "summary": "update de transações",
+            "description": "Rota responsavel por alterar transações",
+            "tags": ["app"],
+            "security": [{"ApiKeyAuth": []}],
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/TransactionUpdate"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "401": {
+                  "description": "Sem autorização"
+               },
+               "400": {
+                  "description": "Parâmetros inválidos"
+               },
+               "200": {
+                  "description": "Requisição realizada com sucesso"
+               }
+            }
+         }
+      }
+
+   },
+   "components": {
+      "schemas": {
+         "TransactionAdd": {
+            "required": ["data", "cod_empresa", "valor_total"],
+            "properties": {
+               "data": {
+                  "type": "string"
+               },
+               "cod_empresa": {
+                  "type": "number"
+               },
+               "valor_total": {
+                  "type": "number"
+               }
+            }
+         },
+         "TransactionUpdate": {
+            "required": ["id_transacoes"],
+            "properties": {
+               "id_transacoes": {
+                  "type": "number"
+               },
+               "data": {
+                  "type": "string"
+               },
+               "cod_empresa": {
+                  "type": "number"
+               },
+               "cod_user": {
+                  "type": "number"
+               },
+               "obj_transacao": {
+                  "type": "string"
+               },
+               "valor_total": {
+                  "type": "number"
+               },
+               "valor_pago": {
+                  "type": "number"
+               },
+               "random_token": {
+                  "type": "string"
+               },
+               "status_transacoes": {
+                  "type": "number"
+               }
+            }
+         },
+         "ClienteAdd": {
+            "required": ["nome", "email", "username", "senha", "data_nascimento"],
+            "properties": {
+               "nome": {
+                  "type": "string"
+               },
+               "data_nascimento": {
+                  "type": "string"
+               },
+               "cod_cidade": {
+                  "type": "number"
+               },
+               "cod_estado": {
+                  "type": "number"
+               },
+               "email": {
+                  "type": "string"
+               },
+               "username": {
+                  "type": "number"
+               },
+               "senha": {
+                  "type": "number"
+               },
+               "endereco": {
+                  "type": "string"
+               },
+               "cpf": {
+                  "type": "string"
+               },
+               "numero": {
+                  "type": "string"
+               },
+               "bairro": {
+                  "type": "string"
+               },
+               "cod_empresa": {
+                  "type": "number"
+               }
+            }
+         },
+         "ClienteUpdate": {
+            "required": ["id_user"],
+            "properties": {
+               "id_user": {
+                  "type": "number"
+               },
+               "nome": {
+                  "type": "string"
+               },
+               "cod_cidade": {
+                  "type": "number"
+               },
+               "cod_estado": {
+                  "type": "number"
+               },
+               "email": {
+                  "type": "string"
+               },
+               "username": {
+                  "type": "number"
+               },
+               "senha": {
+                  "type": "number"
+               },
+               "endereco": {
+                  "type": "string"
+               },
+               "cpf": {
+                  "type": "string"
+               },
+               "numero": {
+                  "type": "string"
+               },
+               "bairro": {
+                  "type": "string"
+               },
+               "cod_empresa": {
+                  "type": "number"
+               },
+               "status_user": {
+                  "type": "number"
+               }
+            }
+         }
+      },
+      "securitySchemes": {
+         "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "x-access-token",
+            "in": "header"
+         }
+      }
+   }
+}
