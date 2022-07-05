@@ -1,7 +1,7 @@
 import { UserService } from '../../db/user-service'
 import { UserModel } from '../../models/user'
 import validator from 'validator'
-import { gerarSenha, encrypto } from '../../utils/'
+import { gerarSenha } from '../../utils/'
 import { ControllerResponse } from '../../models/controller'
 
 const userService = new UserService()
@@ -9,7 +9,7 @@ const userService = new UserService()
 export class AddUserController {
    async setUser (request: any): Promise<ControllerResponse> {
       try {
-         const requiredFields = ['nome', 'email', 'username', 'senha']
+         const requiredFields = ['nome', 'email', 'username', 'password', 'telefone', 'tipo_user_id', 'status_user_id']
          for (const field of requiredFields) {
             if (!request[field]) {
                return {
@@ -29,23 +29,15 @@ export class AddUserController {
                }
             }
          }
-         const password: string = await gerarSenha(request.senha)
-         const userAdd: any = {
+         const password: string = await gerarSenha(request.password)
+         const userAdd: UserModel = {
             nome: request.nome,
             email: request.email,
             username: request.username,
-            numero: request.numero,
-            bairro: request.bairro,
-            cod_cidade: request.cod_cidade,
-            data_nascimento: request.data_nascimento,
-            cod_estado: request.cod_estado,
+            password: password,
             telefone: request.telefone,
-            cpf: encrypto(request.cpf),
-            cod_empresa: request.cod_empresa,
-            senha: password,
-            avatar: request.avatar,
-            tipo: request.tipo,
-            status_user: request.status_user
+            tipo_user_id: request.tipo_user_id,
+            status_user_id: request.status_user_id
          }
          const user = await userService.setUser(userAdd)
          const userAccount: UserModel = await userService.getUserID(user[0])
@@ -58,14 +50,14 @@ export class AddUserController {
       } catch (error) {
          console.log(error)
          if (error.errno === 1062) {
-             if (error.sqlMessage?.includes('users.username')) {
+            if (error.sqlMessage?.includes('users.username')) {
                return {
                   statusCode: 400,
                   resposta: {
                      mensagem: 'Username já está em uso'
                   }
                }
-             }
+            }
             return {
                statusCode: 400,
                resposta: {

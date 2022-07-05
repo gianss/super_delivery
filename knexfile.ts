@@ -2,6 +2,8 @@ require('dotenv/config')
 
 const { CLIENT, DATABASE_KEY, USER_KEY, PASSWORD_KEY, HOST_KEY, PORT } = process.env
 const diretorio = __dirname
+console.log(CLIENT);
+
 
 module.exports = {
    development: {

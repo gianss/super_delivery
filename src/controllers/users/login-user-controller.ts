@@ -8,7 +8,7 @@ const userService = new UserService()
 export class LoginUserController {
    async login (request: any): Promise<ControllerResponse> {
       try {
-         const requiredFields = ['email', 'senha']
+         const requiredFields = ['email', 'password']
          for (const field of requiredFields) {
             if (!request[field]) {
                return {
@@ -19,7 +19,7 @@ export class LoginUserController {
                }
             }
          }
-         const user: UserModel = await userService.login(request.email, request.tipo)
+         const user: UserModel = await userService.login(request.email)
          if (typeof user?.id === 'undefined') {
             return {
                statusCode: 400,

@@ -11,31 +11,17 @@ export class UserService {
          if (pesquisa) {
            this.where('nome', 'like', `%${pesquisa}%`)
            .orWhere('email', 'like', `%${pesquisa}%`)
-         }
-      })
-      .andWhere(function (): void {
-         if (request.tipo) {
-            this.where('tipo', request.tipo)
+           .orWhere('username', 'like', `%${pesquisa}%`)
          }
       })
       .andWhere(function (): void {
          if (request.status) {
-            this.where('status_user', request.status)
+            this.where('status_user_id', request.status)
          }
       })
       .andWhere(function (): void {
-         if (request.cod_estado) {
-            this.where('cod_estado', request.cod_estado)
-         }
-      })
-      .andWhere(function (): void {
-         if (request.cod_cidade) {
-            this.where('cod_cidade', request.cod_cidade)
-         }
-      })
-      .andWhere(function (): void {
-         if (request.cod_empresa) {
-            this.where('cod_empresa', request.cod_empresa)
+         if (request.empresa_id) {
+            this.where('empresa_id', request.empresa_id)
          }
       })
       .limit(request.limit).offset(request.offset)
@@ -44,56 +30,42 @@ export class UserService {
 
    getUsersTotal (request: any): Knex.QueryBuilder {
       const pesquisa: string = request.pesquisa
-      return knex('users').count('id_user as total')
+      return knex('users').count('id as total')
       .andWhere(function (): void {
          if (pesquisa) {
            this.where('nome', 'like', `%${pesquisa}%`)
            .orWhere('email', 'like', `%${pesquisa}%`)
-         }
-      })
-      .andWhere(function (): void {
-         if (request.tipo) {
-            this.where('tipo', request.tipo)
+           .orWhere('username', 'like', `%${pesquisa}%`)
          }
       })
       .andWhere(function (): void {
          if (request.status) {
-            this.where('status_user', request.status)
+            this.where('status_user_id', request.status)
          }
       })
       .andWhere(function (): void {
-         if (request.cod_estado) {
-            this.where('cod_estado', request.cod_estado)
-         }
-      })
-      .andWhere(function (): void {
-         if (request.cod_cidade) {
-            this.where('cod_cidade', request.cod_cidade)
+         if (request.empresa_id) {
+            this.where('empresa_id', request.empresa_id)
          }
       })
       .first()
    }
 
    getUserAtivos (request: any): Knex.QueryBuilder<UserModel> {
-      return knex('users').where('status_user', 1)
-      .select('users.*')
-      .andWhere('tipo', request.tipo)
-   }
-
-   login (email: string, tipo): Knex.QueryBuilder<UserModel> {
       return knex('users')
       .select('users.*')
-      .where('status_user', 1)
-      .andWhere(function (): void {
-         if (tipo) {
-            this.where('tipo', tipo)
-         }
-      })
+      .where('status_user_id', 1)
+   }
+
+   login (email: string): Knex.QueryBuilder<UserModel> {
+      return knex('users')
+      .select('users.*')
+      .where('status_user_id', 1)
       .where('email', email).orWhere('username', email).first()
    }
 
    getUserID (id: number): Knex.QueryBuilder<UserModel> {
-      return knex('users').andWhere('id_user', id).first()
+      return knex('users').andWhere('id', id).first()
    }
 
    setUser (obj: any): Knex.QueryBuilder {
@@ -101,13 +73,13 @@ export class UserService {
    }
 
    updateUser (obj: any): Knex.QueryBuilder {
-      return knex('users').update(obj).where('id_user', obj.id_user)
+      return knex('users').update(obj).where('id', obj.id)
    }
 
    deleteUser (id: number): any {
       try {
          return knex.transaction(async function (trx) {
-            await trx('users').where('id_user', id).del()
+            await trx('users').where('id', id).del()
          })
       } catch {
          return new Error()

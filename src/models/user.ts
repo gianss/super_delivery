@@ -5,7 +5,7 @@ export interface UserModel {
    username: string
    password: string
    telefone?: string
-   avatar: string
+   avatar?: string
    tipo_user_id?: number
-   status?: number
+   status_user_id?: number
 }

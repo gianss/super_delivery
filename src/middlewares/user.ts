@@ -1,6 +1,7 @@
-import { GetUserController, AddUserController, UpdateUserController, LoginUserController, UploadUserPicController, DeleteUserController } from '../controllers/users/'
+
 import { Response, Request } from 'express'
 import multer from 'multer'
+import { AddUserController, GetUserController, UpdateUserController, DeleteUserController, LoginUserController, UploadUserPicController } from '../controllers/users'
 
 const makeAddUserController = new AddUserController()
 const makeGetUserController = new GetUserController()
@@ -26,13 +27,6 @@ export class UserMiddleware {
       res.status(dados.statusCode).json(dados.resposta)
    }
 
-   async loginEmpresa (req: Request, res: Response): Promise<void> {
-      const request: any = req.body
-      request.tipo = 2
-      const dados: any = await makeLoginUpdateController.login(request)
-      res.status(dados.statusCode).json(dados.resposta)
-   }
-
    async getUser (req: Request, res: Response): Promise<void> {
       const request: any = req.query
       request.token = req.headers['x-access-token']
@@ -49,11 +43,6 @@ export class UserMiddleware {
 
    async setUser (req: Request, res: Response): Promise<void> {
       const dados: any = await makeAddUserController.setUser(req.body)
-      res.status(dados.statusCode).json(dados.resposta)
-   }
-
-   async setCliente (req: Request, res: Response): Promise<void> {
-      const dados: any = await makeAddUserController.setCliente(req.body)
       res.status(dados.statusCode).json(dados.resposta)
    }
 

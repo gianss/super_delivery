@@ -10,7 +10,7 @@ export async function up (knex: Knex): Promise<void> {
       })
       .createTable('categorias_empresa', function (table) {
          table.increments('id').primary()
-         table.string('nome').notNullable().unique()
+         table.string('nome').notNullable()
          table.string('imagem', 255).nullable()
          table.integer('status', 1).defaultTo(1)
       })
@@ -28,11 +28,11 @@ export async function up (knex: Knex): Promise<void> {
       })
       .createTable('tipo_user', function (table) {
          table.increments('id').primary()
-         table.string('nome').notNullable().unique()
+         table.string('nome').notNullable()
       })
       .createTable('status_user', function (table) {
          table.increments('id').primary()
-         table.string('nome').notNullable().unique()
+         table.string('nome').notNullable()
       })
       .createTable('users', function (table) {
          table.increments('id').primary()
