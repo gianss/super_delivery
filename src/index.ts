@@ -18,7 +18,7 @@ app.use('/uploads', express.static('uploads'))
 
 let server: any
 
-if (process.env.PASSWORD_KEY === '') {
+if (process.env.AMBIENTE === 'desenvolvimento') {
    server = app.listen(parseInt(process.env.PORT) || 5555, () => {
       console.log(`Server is listening ${process.env.PORT || 5555}`)
    })

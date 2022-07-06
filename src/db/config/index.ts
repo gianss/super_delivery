@@ -8,7 +8,6 @@ export const knexconection = knex({
         host: process.env.HOST_KEY,
         user: process.env.USER_KEY,
         password: process.env.PASSWORD_KEY,
-        database: process.env.DATABASE_KEY,
-        port: 3302
+        database: process.env.DATABASE_KEY
     }
 })

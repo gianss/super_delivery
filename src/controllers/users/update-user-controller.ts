@@ -1,13 +1,14 @@
 import { UserService } from '../../db/user-service'
-import { gerarSenha, encrypto } from '../../utils/'
+import { gerarSenha } from '../../utils/'
 import validator from 'validator'
 import { ControllerResponse } from '../../models/controller'
+import { UserModel } from '../../models/user'
 const userService = new UserService()
 
 export class UpdateUserController {
    async updateUser (request: any): Promise<ControllerResponse> {
       try {
-         const requiredFields = ['id_user']
+         const requiredFields = ['id']
          for (const field of requiredFields) {
             if (!request[field]) {
                return {
@@ -18,8 +19,8 @@ export class UpdateUserController {
                }
             }
          }
-         if (request.senha) {
-            request.senha = await gerarSenha(request.senha)
+         if (request.password) {
+            request.password = await gerarSenha(request.password)
          }
          if (request.email) {
             const isvalid = validator.isEmail(request.email)
@@ -32,14 +33,24 @@ export class UpdateUserController {
                }
             }
          }
-         if (request.cpf) {
-            request.cpf = encrypto(request.cpf)
+         const userAdd: UserModel = {
+            id: request.id,
+            nome: request.nome,
+            email: request.email,
+            username: request.username,
+            telefone: request.telefone,
+            tipo_user_id: request.tipo_user_id,
+            status_user_id: request.status_user_id
          }
-         await userService.updateUser(request)
+         if (request.password) {
+            userAdd.password = gerarSenha(request.password)
+         }
+         await userService.updateUser(userAdd)
+         const userResponse = await userService.getUserID(request.id)
          return {
             statusCode: 200,
             resposta: {
-               user: request,
+               user: userResponse,
                mensagem: 'Informações atualizadas com sucesso'
             }
          }
